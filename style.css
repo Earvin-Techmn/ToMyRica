@@ -1,0 +1,164 @@
+/* ========== BASE ========== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;            /* nothing scrolls — the site always fits fully */
+}
+
+body {
+  font-family: Georgia, 'Times New Roman', serif;
+  background: #d9d9d9;         /* fills the letterbox around the site */
+}
+
+/* The whole site lives on a fixed 1440x810 canvas that shrinks to fit */
+:root {
+  --design-w: 1440px;
+  --design-h: 810px;
+  --fit: 1;                    /* updated by script.js */
+}
+
+.page {
+  display: none;
+  width: var(--design-w);
+  height: var(--design-h);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(var(--fit));
+  transform-origin: center center;
+  overflow: hidden;
+  flex-direction: column;
+  background: #fff;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.25);
+}
+.page.active { display: flex; }
+
+/* ========== HEADERS / FOOTERS ========== */
+.header {
+  z-index: 100;
+  height: 90px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  /* transition depends on scroll direction (handled in JS) */
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.header-dark { background: linear-gradient(#4fc3f7, #29b6f6); }
+.header-blue { background: linear-gradient(#4fc3f7, #29b6f6); }
+
+/* hidden state when scrolling DOWN, shown when scrolling UP */
+.header-hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.footer { height: 90px; flex-shrink: 0; margin-top: auto; }
+.footer-dark { background: linear-gradient(#29b6f6, #4fc3f7); }
+.footer-blue { background: linear-gradient(#29b6f6, #4fc3f7); }
+
+.stage { flex: 1; position: relative; }
+.stage-white { background: #fff; }
+
+/* ========== PAGE 1 ========== */
+.center-group {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.text-top, .text-bottom {
+  font-weight: bold;
+  color: #40e0d0;
+  text-shadow: 2px 2px 0 #f4a7b9;
+  font-size: 3rem;
+  letter-spacing: 1px;
+}
+
+.flower-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
+.lotus {
+  width: 180px;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(80px) scale(0.8);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.lotus.in { opacity: 1; transform: translateY(0) scale(1); }
+.lotus:hover { transform: translateY(-8px) scale(1.06); }
+
+/* texts float UPWARDS */
+.float-text {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.float-text.in { opacity: 1; transform: translateY(0); }
+
+/* arrows slide in from left / right */
+.arrow { width: 180px; opacity: 0; }
+.arrow-left {
+  transform: translateX(-160px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.arrow-right {
+  transform: translateX(160px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.arrow.in { opacity: 1; transform: translateX(0); }
+
+/* ========== PAGE 2 ========== */
+.scatter { overflow: hidden; }
+
+/* every heart / ribbon / flower floats UPWARDS */
+.deco {
+  position: absolute;
+  opacity: 0;
+  transform: translateY(70px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.deco.in { opacity: 1; transform: translateY(0); }
+
+.heart  { width: 130px; }
+.ribbon { width: 150px; }
+.flower { width: 90px;  }
+
+/* mirrored pieces on the right side */
+.ribbon-flip, .flower-flip { transform: translateY(70px) scaleX(-1); }
+.ribbon-flip.in, .flower-flip.in { transform: translateY(0) scaleX(-1); }
+
+/* ========== TRAVEL BUTTON ========== */
+.page-toggle {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 30px;
+  background: #1e88e5;
+  color: #fff;
+  font-size: 1rem;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.page-toggle:hover {
+  background: #1565c0;
+  transform: translateX(-50%) translateY(-3px);
+}
